@@ -23,3 +23,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# npm config vm fix (for my sandbox)
+.npmrc
