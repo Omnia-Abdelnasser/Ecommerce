@@ -1,4 +1,5 @@
 import checkFile from 'eslint-plugin-check-file';
+import { projectStructurePlugin } from 'eslint-plugin-project-structure';
 import reactCompiler from 'eslint-plugin-react-compiler';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
@@ -22,6 +23,11 @@ export default {
       'react-refresh': reactRefresh,
       'check-file': checkFile,
       'react-compiler': reactCompiler,
+      'project-structure': projectStructurePlugin,
+   },
+   settings: {
+      'project-structure/independent-modules-config-path':
+         'independentModules.json',
    },
    rules: {
       // react-compiler
@@ -29,7 +35,7 @@ export default {
       // custom rules
       'prefer-arrow-callback': 'error',
       'prefer-template': 'error',
-      quotes: ['error', 'single'],
+
       'check-file/filename-naming-convention': [
          'error',
          {
@@ -49,6 +55,8 @@ export default {
          'warn',
          { allowConstantExport: true },
       ],
+      // project-structure
+      'project-structure/independent-modules': 'error',
       ...reactHooks.configs.recommended.rules,
    },
 };
