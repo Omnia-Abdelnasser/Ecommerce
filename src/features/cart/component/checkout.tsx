@@ -51,7 +51,7 @@ export default function CheckoutPage() {
                 <span>
                   {item.title} × {item.quantity}
                 </span>
-                <span>${item.price * item.quantity}</span>
+                {/* <span>${item.price * item.quantity}</span> */}
               </li>
             ))}
           </ul>
