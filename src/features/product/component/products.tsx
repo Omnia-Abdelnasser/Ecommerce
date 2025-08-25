@@ -1,80 +1,107 @@
-import { useCartStore } from "@/app/cartSore";
-import { Button } from "@/shared/components/ui/button";
-import React from "react";
-import { useProducts } from "../hook/hook";
-import useFavStore from "@/app/favStore";
+import React from 'react';
+
+import { Heart } from 'lucide-react';
+
+import { Button } from '@/shared/components/ui/button';
+import { toast } from '@/shared/hooks/use-toast';
+
+import { useProducts } from '@/features/product/hook/hook';
+
+import { useCartStore } from '@/app/cart-store';
+import useFavStore from '@/app/fav-store';
 
 const Products = () => {
-  
-    const [selectedCategory, setSelectedCategory] = React.useState('all');
-    const addToCart = useCartStore((state) => state.addToCart)||(()=>{});
-    //add to favorite
-    const addToFav = useFavStore((state) => state.addToFav)||(()=>{});
-    const { data: products, isLoading, error } = useProducts();
+   const [selectedCategory, setSelectedCategory] = React.useState('all');
+   const addToCart = useCartStore((state) => state.addToCart) || (() => {});
+   //add to favorite
+   const addToFav = useFavStore((state) => state.addToFav) || (() => {});
+   const { data: products, isLoading, error } = useProducts();
 
-    
-    if (isLoading) return <div>Loading...</div>;
-    if (error || !products) return <div>Error loading products</div>;
+   if (isLoading) return <div>Loading...</div>;
+   if (error || !products) return <div>Error loading products</div>;
 
-    //categories
-    const categories = Array.from(new Set(products.map((p: any) => p.category)));
+   //categories
+   const categories = Array.from(new Set(products.map((p: any) => p.category)));
 
-    //filter products by category
-    const filteredProducts = selectedCategory === 'all'
-        ? products
-        : products.filter((p: any) => p.category === selectedCategory);
+   //filter products by category
+   const filteredProducts =
+      selectedCategory === 'all'
+         ? products
+         : products.filter((p: any) => p.category === selectedCategory);
 
-    return (
-        <div className="bg-white min-h-screen px-4 py-8">
-            <div className="flex justify-between items-center mb-6">
-                <h1 className="text-3xl font-bold text-gray-800">All Products</h1>
-                <div className="mb-6">
-                    <select
-                        className="border border-gray-300 rounded text-black px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        value={selectedCategory}
-                        onChange={(e) => setSelectedCategory(e.target.value)}
-                    >
-                        <option value="all" className="text-gray-700">All Categories</option>
-                        {categories.map((category: any) => (
-                            <option key={category} value={category} className="text-gray-700">
-                                {category}
-                            </option>
-                        ))}
-                    </select>
-                </div>
+   return (
+      <div className='min-h-screen bg-white px-4 py-8'>
+         <div className='mb-6 flex items-center justify-between'>
+            <h1 className='text-3xl font-bold text-gray-800'>All Products</h1>
+            <div className='mb-6'>
+               <select
+                  className='rounded border border-gray-300 px-4 py-2 text-black focus:outline-none focus:ring-2 focus:ring-blue-500'
+                  value={selectedCategory}
+                  onChange={(e) => setSelectedCategory(e.target.value)}
+               >
+                  <option value='all' className='text-gray-700'>
+                     All Categories
+                  </option>
+                  {categories.map((category: any) => (
+                     <option
+                        key={category}
+                        value={category}
+                        className='text-gray-700'
+                     >
+                        {category}
+                     </option>
+                  ))}
+               </select>
             </div>
+         </div>
 
-            <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {filteredProducts.map((product: any) => (
-                    <div
-                        key={product.id}
-                        className="border-2 rounded-lg p-4 border-white shadow-sm hover:shadow-md transition-shadow flex flex-col"
-                    >
-                        <img
-                            src={product.image}
-                            alt={product.title}
-                            className="w-full h-48 object-cover mb-4 rounded"
-                        />
-                        <h2 className="text-xl font-semibold mb-2 text-gray-700">
-                            {product.title}
-                        </h2>
-                        <p className="text-gray-600 mb-4">${product.price}</p>
-                        <div className="mt-auto flex flex-row gap-2">
-                            <Button
-                                onClick={() => addToCart(product)}
-                                className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors w-full"
-                            >
-                                Add to Cart
-                            </Button>
-                            <Button onClick={() => addToFav(product)}
-                                className="bg-red-400 text-white px-4 py-2 rounded hover:bg-red-500 transition-colors w-full"
-                            >
-                                Add to Wishlist
-                            </Button>
-                        </div>
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
-}; export default Products;
+         <div className='mx-auto grid max-w-7xl grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
+            {filteredProducts.map((product: any) => (
+               <div
+                  key={product.id}
+                  className='flex flex-col rounded-lg border-2 border-white p-4 shadow-sm transition-shadow hover:shadow-md'
+               >
+                  <img
+                     src={product.image}
+                     alt={product.title}
+                     className='mb-4 h-48 w-full rounded object-cover'
+                  />
+                  <h2 className='mb-2 text-xl font-semibold text-gray-700'>
+                     {product.title}
+                  </h2>
+                  <p className='mb-4 font-bold text-gray-600'>
+                     {product.price}$
+                  </p>
+                  <div className='mt-auto flex flex-row gap-2'>
+                     <Button
+                        onClick={() => {
+                           addToCart(product);
+                           toast({
+                              title: 'Added to Cart 🛒',
+                              description: `${product.title} has been added to your cart.`,
+                           });
+                        }}
+                        className='w-full rounded bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700'
+                     >
+                        Add to Cart
+                     </Button>
+                     <Button
+                        onClick={() => {
+                           addToFav(product);
+                           toast({
+                              title: 'Added to Favorites ❤️',
+                              description: `${product.title} has been added to your wishlist.`,
+                           });
+                        }}
+                        className='w-12 rounded bg-red-400 px-4 py-2 text-white transition-colors hover:bg-red-500'
+                     >
+                        <Heart className='h-5 w-5' />
+                     </Button>
+                  </div>
+               </div>
+            ))}
+         </div>
+      </div>
+   );
+};
+export default Products;

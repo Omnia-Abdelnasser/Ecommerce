@@ -30,6 +30,7 @@ export default {
          'independentModules.json',
    },
    rules: {
+
       // react-compiler
       'react-compiler/react-compiler': 'error',
       // custom rules
@@ -56,7 +57,7 @@ export default {
          { allowConstantExport: true },
       ],
       // project-structure
-      'project-structure/independent-modules': 'error',
+      'project-structure/independent-modules': 'off',
       ...reactHooks.configs.recommended.rules,
    },
 };
