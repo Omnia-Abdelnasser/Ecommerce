@@ -26,7 +26,7 @@ export default function ResponsiveNavbar() {
             <div className='flex h-16 items-center justify-between'>
                <div className='flex flex-shrink-0 items-center'>
                   <div className='text-2xl font-bold text-gray-900'>
-                     <span className='text-blue-600'>Brand</span>Logo
+                     <span className='text-blue-600'>My</span>store
                   </div>
                </div>
 

@@ -2,7 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 
 import CartPage from '@/features/cart/component/cart';
 import CheckoutPage from '@/features/checkout/component/checkout';
-import FavPage from '@/features/favproduct/componenet/fav';
+import FavPage from '@/features/favproduct/component/fav';
 import Products from '@/features/product/component/products';
 
 import LandingPage from '@/pages/landing';

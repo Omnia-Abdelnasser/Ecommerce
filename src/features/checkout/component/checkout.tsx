@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+import { Helmet } from '@dr.pogodin/react-helmet';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
@@ -58,83 +59,89 @@ export default function CheckoutPage() {
    }
 
    return (
-      <div className='min-h-screen w-full bg-slate-50'>
-         <div className='container mx-auto max-w-xl bg-gray-50 py-10'>
-            <h1 className='mb-6 text-3xl font-bold'>Checkout</h1>
+      <>
+         <Helmet>
+            <title>Checkout</title>
+            <meta
+               name='description'
+               content='Checkout page for your store. Complete your purchase securely.'
+            />
+         </Helmet>
+         <div className='min-h-screen w-full bg-slate-50'>
+            <div className='container mx-auto max-w-xl bg-gray-50 py-10'>
+               <h1 className='mb-6 text-3xl font-bold'>Checkout</h1>
 
-            {cart.length === 0 ? (
-               <p className='text-gray-600'>Your cart is empty.</p>
-            ) : (
-               <>
-                  <ul className='mb-6 space-y-2'>
-                     {cart.map((item) => (
-                        <li
-                           key={item.id}
-                           className='flex justify-between rounded bg-gray-100 p-2 text-black'
-                        >
-                           <span>
-                              {item.title} × {item.quantity}
-                           </span>
-                           {/* /                <span>${item.price * item.quantity}</span> */}
-                        </li>
-                     ))}
-                  </ul>
+               {cart.length === 0 ? (
+                  <p className='text-gray-600'>Your cart is empty.</p>
+               ) : (
+                  <>
+                     <ul className='mb-6 space-y-2'>
+                        {cart.map((item) => (
+                           <li
+                              key={item.id}
+                              className='flex justify-between rounded bg-gray-100 p-2 text-black'
+                           >
+                              <span>
+                                 {item.title} × {item.quantity}
+                              </span>
+                              {/* /                <span>${item.price * item.quantity}</span> */}
+                           </li>
+                        ))}
+                     </ul>
 
-                  <p className='mb-4 text-lg font-bold text-black'>
-                     Total: ${total.toFixed(2)}
-                  </p>
-                  <Form {...form}>
-                     <form
-                        onSubmit={form.handleSubmit(onSubmit)}
-                        className='max-w-lg space-y-4 text-black'
-                     >
-                        <FormField
-                           name='name'
-                           control={form.control}
-                           render={({ field }) => (
-                              <FormItem>
-                                 <FormLabel>Your Name</FormLabel>
-                                 <FormControl>
-                                    <Input placeholder='Your Name' {...field} />
-                                 </FormControl>
-                                 <FormMessage className='text-red text-sm' />
-                              </FormItem>
-                           )}
-                        />
-                        <FormField
-                           name='address'
-                           control={form.control}
-                           render={({ field }) => (
-                              <FormItem>
-                                 <FormLabel>Shipping Address</FormLabel>
-                                 <FormControl>
-                                    <Input
-                                       placeholder='Shipping Address'
-                                       {...field}
-                                    />
-                                 </FormControl>
-                                 <FormMessage className='text-red text-sm' />
-                              </FormItem>
-                           )}
-                        />
-                        <Button
-                           type='button'
-                           className='mr-2 bg-gray-500 text-white hover:bg-gray-600'
+                     <p className='mb-4 text-lg font-bold text-black'>
+                        Total: ${total.toFixed(2)}
+                     </p>
+                     <Form {...form}>
+                        <form
+                           onSubmit={form.handleSubmit(onSubmit)}
+                           className='max-w-lg space-y-4 text-black'
                         >
-                           Autofill
-                        </Button>
+                           <FormField
+                              name='name'
+                              control={form.control}
+                              render={({ field }) => (
+                                 <FormItem>
+                                    <FormLabel>Your Name</FormLabel>
+                                    <FormControl>
+                                       <Input
+                                          placeholder='Your Name'
+                                          {...field}
+                                       />
+                                    </FormControl>
+                                    <FormMessage className='text-red text-sm' />
+                                 </FormItem>
+                              )}
+                           />
+                           <FormField
+                              name='address'
+                              control={form.control}
+                              render={({ field }) => (
+                                 <FormItem>
+                                    <FormLabel>Shipping Address</FormLabel>
+                                    <FormControl>
+                                       <Input
+                                          placeholder='Shipping Address'
+                                          {...field}
+                                       />
+                                    </FormControl>
+                                    <FormMessage className='text-red text-sm' />
+                                 </FormItem>
+                              )}
+                           />
 
-                        <Button
-                           type='submit'
-                           className='bg-blue-600 text-white hover:bg-blue-700'
-                        >
-                           Place Order
-                        </Button>
-                     </form>
-                  </Form>
-               </>
-            )}
+                           <Button
+                              type='submit'
+                              className='bg-blue-600 text-white hover:bg-blue-700'
+                           >
+                              Place Order
+                           </Button>
+                        </form>
+                     </Form>
+                  </>
+               )}
+            </div>
          </div>
-      </div>
+      </>
    );
 }

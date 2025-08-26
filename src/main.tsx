@@ -1,5 +1,6 @@
 import { StrictMode } from 'react';
 
+import { HelmetProvider } from '@dr.pogodin/react-helmet';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
@@ -17,8 +18,11 @@ createRoot(document.getElementById('root')!).render(
       <Providers>
          <BrowserRouter>
             <QueryClientProvider client={queryClient}>
-               {' '}
-               <App />
+               <HelmetProvider>
+                  {' '}
+                  <App />
+               </HelmetProvider>
+
                <Toaster />
             </QueryClientProvider>
          </BrowserRouter>
