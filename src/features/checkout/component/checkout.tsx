@@ -39,8 +39,8 @@ export default function CheckoutPage() {
       (sum, item) => sum + item.price * (item.quantity ? item.quantity : 1),
       0
    );
-   const onSubmit = (vales: z.infer<typeof FormSchema>) => {
-      console.log('Order placed:', { ...vales, cart, total });
+   const onSubmit = (values: z.infer<typeof FormSchema>) => {
+      console.log('Order placed:', { ...values, cart, total });
       clearCart();
       setSubmitted(true);
    };
@@ -109,7 +109,7 @@ export default function CheckoutPage() {
                                           {...field}
                                        />
                                     </FormControl>
-                                    <FormMessage className='text-red text-sm' />
+                                    <FormMessage />
                                  </FormItem>
                               )}
                            />
@@ -125,7 +125,7 @@ export default function CheckoutPage() {
                                           {...field}
                                        />
                                     </FormControl>
-                                    <FormMessage className='text-red text-sm' />
+                                    <FormMessage />
                                  </FormItem>
                               )}
                            />
